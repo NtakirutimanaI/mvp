@@ -122,3 +122,6 @@
     </table>
 </div>
 @endsection
+
+
+@include('layouts.footer')

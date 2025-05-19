@@ -258,3 +258,5 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 @endsection
+
+@include('layouts.footer')

@@ -19,6 +19,7 @@ public function up()
         $table->enum('status', ['pending', 'in_progress', 'resolved'])->default('pending');
         $table->string('category');
         $table->text('response')->nullable();
+        $table->string('status')->default('Open');
         $table->timestamps();
     });
 }

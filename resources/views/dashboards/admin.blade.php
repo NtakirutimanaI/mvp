@@ -152,3 +152,4 @@ new Chart(ctx, {
 </script>
 @endsection
 
+@include('layouts.footer')

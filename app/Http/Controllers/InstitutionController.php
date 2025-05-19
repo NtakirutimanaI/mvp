@@ -103,4 +103,8 @@ class InstitutionController extends Controller
 
         return back()->with('success', 'Response submitted successfully.');
     }
+    public function getInstitutions()
+    {
+        return Institution::all();
+    }
 }

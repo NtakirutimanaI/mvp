@@ -59,5 +59,19 @@ public function complaints()
 {
     return $this->hasMany(Complaint::class);
 }
+public function feedbacks()
+{
+    return $this->hasMany(Feedback::class);
+}
+public function user()
+{
+    return $this->belongsTo(User::class);
+}
+
+public function complaint()
+{
+    return $this->belongsTo(Complaint::class);
+}
+
 }
 

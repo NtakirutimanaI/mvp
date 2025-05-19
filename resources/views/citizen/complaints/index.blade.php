@@ -192,3 +192,5 @@
     </div>
 </div>
 @endsection
+
+@include('layouts.footer')

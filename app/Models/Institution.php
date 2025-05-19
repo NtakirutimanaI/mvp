@@ -44,5 +44,9 @@ class Institution extends Model
     {
     return $this->hasMany(User::class);
     }
+public function admin()
+{
+    return $this->belongsTo(User::class, 'admin_id'); // assuming institutions table has admin_id
+}
 
 }

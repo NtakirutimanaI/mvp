@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Models;
-use App\Models\Complaint;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Complaint extends Model
+class Received extends Model
 {
     use HasFactory;
 
@@ -19,9 +19,7 @@ class Complaint extends Model
         'response',
     ];
 
-    /**
-     * Relationships
-     */
+    // Optional: If you're using relationships
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -31,10 +29,4 @@ class Complaint extends Model
     {
         return $this->belongsTo(Institution::class);
     }
-  
-    public function feedbacks()
-    {
-    return $this->hasMany(Feedback::class);
-    }
-   
 }

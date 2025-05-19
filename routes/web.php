@@ -14,7 +14,9 @@ use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ComplaintPageController;
-
+use App\Http\Controllers\SubmitComplaintController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\ReceivedController;
 
 
 
@@ -46,18 +48,6 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-});
-
-Route::middleware(['auth', 'role:agency'])->group(function () {
-    Route::get('/agency/dashboard', [AgencyController::class, 'index'])->name('agency.dashboard');
-});
-
-Route::middleware(['auth', 'role:citizen'])->group(function () {
-    Route::get('/citizen/dashboard', [CitizenController::class, 'index'])->name('citizen.dashboard');
-});
-
 use App\Http\Controllers\UserController;
 
 Route::get('/register', [UserController::class, 'create'])->name('register');
@@ -65,8 +55,6 @@ Route::post('/register', [UserController::class, 'store']);
 
 // Optional CRUD routes:
 Route::resource('users', UserController::class)->except(['create', 'store']);
-
-
 
 
 Route::middleware('auth')->group(function () {
@@ -238,3 +226,41 @@ Route::prefix('citizen')->middleware(['auth'])->group(function () {
     Route::put('/complaints/{id}', [ComplaintPageController::class, 'update'])->name('complaints.update');
     Route::delete('/complaints/{id}', [ComplaintPageController::class, 'destroy'])->name('complaints.destroy');
 });
+
+//
+Route::get('/mvp', function () {
+    return view('mvp');
+})->name('mvp');
+
+Route::middleware(['auth', 'role:citizen'])->prefix('citizen')->group(function () {
+    Route::get('/submit', [SubmitComplaintController::class, 'create'])->name('citizen.complaints.create');
+    Route::post('/submit', [SubmitComplaintController::class, 'store'])->name('citizen.complaints.store');
+});
+
+
+Route::get('/submit/complaint', [SubmitComplaintController::class, 'create'])->name('complaint.create');
+
+//Route::resource('role', RoleController::class);
+Route::resource('role', App\Http\Controllers\RoleController::class);
+Route::post('/citizen/complaints', [SubmitComplaintController::class, 'store'])->name('citizen.complaints.store');
+
+Route::get('/citizen/complaints/create', [SubmitComplaintController::class, 'create'])->name('citizen.complaints.create');
+Route::post('/citizen/complaints', [SubmitComplaintController::class, 'store'])->name('citizen.complaints.store');
+
+Route::middleware(['auth', 'role:institution-admin'])->group(function () {
+    Route::post('/institution/complaints/{complaint}/feedback', [InstitutionFeedbackController::class, 'store'])->name('institution.feedback.store');
+    Route::get('/institution/complaints/{complaint}/feedback', [InstitutionFeedbackController::class, 'show'])->name('institution.feedback.show');
+});
+Route::post('/complaints', [ComplaintController::class, 'store'])->name('complaints.store');
+
+
+//FeedBacks
+Route::get('/complaints/feedback', [FeedbackController::class, 'feedback'])->name('complaints.feedback');
+Route::get('/feedbacks/create', [FeedbackController::class, 'create'])->name('feedbacks.create');
+Route::post('/feedbacks', [FeedbackController::class, 'store'])->name('feedbacks.store');
+Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.index');
+Route::get('/feedbacks/create', [FeedbackController::class, 'create'])->name('feedbacks.create');
+Route::post('/feedbacks', [FeedbackController::class, 'store'])->name('feedbacks.store');
+//Received
+
+Route::get('/complaints/received', [ReceivedController::class, 'index'])->name('complaints.received');
